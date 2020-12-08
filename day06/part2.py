@@ -8,7 +8,7 @@ def compute(cts: str):
     for group in cts.split('\n\n'):
         answers = group.split()
         counter = Counter(''.join(answers))
-        ret += sum(1 for key, num in counter.items() if num == len(answers))
+        ret += sum(num == len(answers) for num in counter.values())
     return ret
 
 

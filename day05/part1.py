@@ -3,26 +3,12 @@ import pytest
 
 
 def to_binary(s):
-    trans = s.maketrans(
-        {
-            'F': '0',
-            'B': '1',
-            'L': '0',
-            'R': '1',
-        }
-    )
-
+    trans = s.maketrans('FBLR', '0101')
     return int(s.translate(trans), 2)
 
 
-def get_seat_id(s):
-    row = to_binary(s[:7])
-    column = to_binary(s[7:])
-    return row * 8 + column
-
-
 def compute(cts: str):
-    return max(get_seat_id(line) for line in cts.splitlines())
+    return max(to_binary(line) for line in cts.splitlines())
 
 
 @pytest.mark.parametrize(
@@ -34,7 +20,7 @@ def compute(cts: str):
     ],
 )
 def test_compute(input_str, expected) -> None:
-    assert get_seat_id(input_str) == expected
+    assert to_binary(input_str) == expected
 
 
 def main() -> int:
